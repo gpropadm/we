@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: whatsapp-bulk-sender
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: WHATSAPP_PROVIDER
+        value: evolution
+      - key: EVOLUTION_ENABLED
+        value: true
+      - key: MESSAGES_PER_SECOND
+        value: 50
+      - key: PORT
+        fromService:
+          type: web
+          name: whatsapp-bulk-sender
+          property: port
+
+  - type: redis
+    name: whatsapp-bulk-redis
+    plan: free
+    maxmemoryPolicy: allkeys-lru
