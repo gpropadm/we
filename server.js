@@ -34,7 +34,13 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando na porta ${PORT}`);
-  console.log(`📊 Dashboard: http://localhost:${PORT}`);
-});
+// Para Vercel (serverless)
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Servidor rodando na porta ${PORT}`);
+    console.log(`📊 Dashboard: http://localhost:${PORT}`);
+  });
+}
+
+// Exportar para Vercel
+module.exports = app;
