@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Bulk Sender - Dashboard</title>
+    <title>WE - WhatsApp Mass Sender</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -34,6 +34,15 @@
         .header p {
             opacity: 0.9;
             font-size: 1.1em;
+        }
+
+        .vercel-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 0.9em;
         }
 
         .container {
@@ -107,6 +116,15 @@
             gap: 10px;
         }
 
+        .demo-alert {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #1976d2;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -158,19 +176,6 @@
             background: linear-gradient(135deg, #6c757d, #5a6268);
         }
 
-        .file-upload {
-            border: 2px dashed #25D366;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .file-upload:hover {
-            background-color: rgba(37, 211, 102, 0.05);
-        }
-
         .campaigns-list {
             max-height: 400px;
             overflow-y: auto;
@@ -211,22 +216,6 @@
 
         .status-processing { background: #fff3cd; color: #856404; }
         .status-completed { background: #d4edda; color: #155724; }
-        .status-failed { background: #f8d7da; color: #721c24; }
-        .status-pending { background: #e2e3e5; color: #383d41; }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #25D366, #128C7E);
-            transition: width 0.3s ease;
-        }
 
         .alert {
             padding: 15px;
@@ -259,11 +248,20 @@
 </head>
 <body>
     <div class="header">
-        <h1><i class="fab fa-whatsapp"></i> WhatsApp Bulk Sender</h1>
-        <p>Sistema Profissional de Envio em Massa - Até 100k mensagens</p>
+        <h1><i class="fab fa-whatsapp"></i> WE</h1>
+        <p>Sistema Profissional de Envio em Massa - WhatsApp Rocket</p>
+        <div class="vercel-badge">
+            <i class="fas fa-rocket"></i> Powered by Vercel
+        </div>
     </div>
 
     <div class="container">
+        <!-- Demo Alert -->
+        <div class="demo-alert">
+            <strong><i class="fas fa-info-circle"></i> Modo Demonstração Vercel</strong><br>
+            Sistema funcionando em ambiente serverless. Para produção real, configure Evolution API externa.
+        </div>
+
         <!-- Estatísticas -->
         <div class="stats-grid">
             <div class="stat-card">
@@ -290,37 +288,24 @@
 
         <!-- Conteúdo Principal -->
         <div class="main-content">
-            <!-- Nova Campanha -->
+            <!-- Teste Rápido -->
             <div class="panel">
-                <h2><i class="fas fa-plus-circle"></i> Nova Campanha</h2>
+                <h2><i class="fas fa-bolt"></i> Teste Rápido</h2>
                 
-                <form id="campaignForm">
+                <form id="testForm">
                     <div class="form-group">
-                        <label for="campaignName">Nome da Campanha</label>
-                        <input type="text" class="form-control" id="campaignName" required>
+                        <label for="testPhone">Telefone</label>
+                        <input type="text" class="form-control" id="testPhone" placeholder="11999999999" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="message">Mensagem</label>
-                        <textarea class="form-control" id="message" placeholder="Digite sua mensagem aqui. Use {nome} para personalizar." required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Contatos</label>
-                        <div class="file-upload" onclick="document.getElementById('csvFile').click()">
-                            <i class="fas fa-upload"></i>
-                            <p>Clique para fazer upload do CSV</p>
-                            <small>Formato: nome,telefone,email</small>
-                        </div>
-                        <input type="file" id="csvFile" accept=".csv" style="display: none;">
+                        <label for="testMessage">Mensagem</label>
+                        <textarea class="form-control" id="testMessage" placeholder="Teste do sistema WE na Vercel!" required></textarea>
                     </div>
                     
                     <div class="form-group">
                         <button type="submit" class="btn">
-                            <i class="fas fa-rocket"></i> Criar Campanha
-                        </button>
-                        <button type="button" class="btn btn-secondary" onclick="downloadTemplate()">
-                            <i class="fas fa-download"></i> Template CSV
+                            <i class="fas fa-paper-plane"></i> Enviar Teste
                         </button>
                     </div>
                 </form>
@@ -328,7 +313,7 @@
 
             <!-- Lista de Campanhas -->
             <div class="panel">
-                <h2><i class="fas fa-list"></i> Campanhas</h2>
+                <h2><i class="fas fa-list"></i> Campanhas Demo</h2>
                 
                 <div class="campaigns-list" id="campaignsList">
                     <!-- Campanhas serão carregadas aqui -->
@@ -347,11 +332,11 @@
             loadStats();
             loadCampaigns();
             
-            // Atualizar a cada 5 segundos
+            // Atualizar a cada 10 segundos
             setInterval(() => {
                 loadStats();
                 loadCampaigns();
-            }, 5000);
+            }, 10000);
         });
 
         // Carregar estatísticas
@@ -402,54 +387,39 @@
                     <div style="font-size: 0.9em; color: #7f8c8d; margin-bottom: 10px;">
                         ${campaign.totalContacts} contatos • ${new Date(campaign.createdAt).toLocaleString('pt-BR')}
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${getProgress(campaign)}%"></div>
-                    </div>
                 </div>
             `).join('');
         }
 
-        // Calcular progresso da campanha
-        function getProgress(campaign) {
-            if (campaign.status === 'completed') return 100;
-            if (campaign.status === 'pending') return 0;
-            // Aqui você pode implementar lógica mais complexa baseada nas estatísticas
-            return 50;
-        }
-
-        // Enviar campanha
-        document.getElementById('campaignForm').addEventListener('submit', async function(e) {
+        // Teste de mensagem
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const formData = new FormData();
-            formData.append('name', document.getElementById('campaignName').value);
-            formData.append('message', document.getElementById('message').value);
-            
-            const csvFile = document.getElementById('csvFile').files[0];
-            if (csvFile) {
-                formData.append('contacts', csvFile);
-            }
+            const phone = document.getElementById('testPhone').value;
+            const message = document.getElementById('testMessage').value;
             
             try {
-                const response = await fetch('/api/campaigns/create', {
+                const response = await fetch('/api/evolution/test-message', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ phone, message })
                 });
                 
                 const result = await response.json();
                 
                 if (result.success) {
-                    showAlert('Campanha criada com sucesso!', 'success');
-                    document.getElementById('campaignForm').reset();
-                    loadCampaigns();
+                    showAlert('Mensagem enviada com sucesso! (Demo)', 'success');
+                    document.getElementById('testForm').reset();
                     loadStats();
                 } else {
-                    showAlert(result.error || 'Erro ao criar campanha', 'error');
+                    showAlert(result.error || 'Erro ao enviar mensagem', 'error');
                 }
                 
             } catch (error) {
-                console.error('Erro ao criar campanha:', error);
-                showAlert('Erro ao criar campanha: ' + error.message, 'error');
+                console.error('Erro no teste:', error);
+                showAlert('Erro ao enviar mensagem: ' + error.message, 'error');
             }
         });
 
@@ -465,17 +435,6 @@
                 alertDiv.remove();
             }, 5000);
         }
-
-        // Download template CSV
-        function downloadTemplate() {
-            window.open('/api/contacts/csv-template', '_blank');
-        }
-
-        // Upload de arquivo
-        document.getElementById('csvFile').addEventListener('change', function(e) {
-            const fileName = e.target.files[0]?.name || 'Nenhum arquivo selecionado';
-            document.querySelector('.file-upload p').textContent = fileName;
-        });
     </script>
 </body>
 </html>
